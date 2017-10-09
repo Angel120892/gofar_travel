@@ -1,0 +1,157 @@
+
+
+CREATE TABLE Patients (
+  IdPatients number NOT NULL,
+  name varchar(250) NOT NULL,
+  Address varchar(250) NOT NULL,
+  CityId  number NOT NULL,
+  State varchar(50) NOT NULL,
+  Zip varchar(10) NOT NULL,
+	CONSTRAINT PatientPk PRIMARY KEY (IdPatients),
+    CONSTRAINT CityIdFk FOREIGN KEY (CityId) REFERENCES City (CityId)
+);
+
+/
+
+CREATE SEQUENCE Patients_Seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;
+
+/
+
+CREATE TABLE Bill (
+  IdBill number NOT NULL,
+  DateBill varchar(250) NOT NULL,
+  DateAdmited varchar(250) NOT NULL,
+  DateDischarge varchar(250) NOT NULL,
+  Total varchar(100) NOT NULL,
+  IdPatients number NOT NULL,
+	CONSTRAINT Bill_Pk PRIMARY KEY (IdBill),
+  	CONSTRAINT PatientIdFk FOREIGN KEY (IdPatients) REFERENCES Patients (IdPatients)
+);
+
+/
+
+CREATE SEQUENCE Bill_Seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;
+
+/
+
+CREATE TABLE BillDetail (
+  BillDetId number NOT NULL,
+  DateCharged varchar(255) NOT NULL,
+  ItemCharged varchar(500) NOT NULL,
+  IdBill number NOT NULL,
+  IdItem number NOT NULL,
+	CONSTRAINT billdetail_Pk PRIMARY KEY (BillDetId),
+	CONSTRAINT BillIdFk FOREIGN KEY (IdBill) REFERENCES Bill (IdBill),
+    CONSTRAINT IdItemFk FOREIGN KEY (IdItem) REFERENCES Item (IdItem)
+);
+
+/
+
+CREATE SEQUENCE BillDetail_Seq
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;
+
+/
+
+CREATE TABLE CostCenter (
+  IdCostCenter number NOT NULL,
+  description varchar(500) NOT NULL,
+	CONSTRAINT Costcenter_Pk PRIMARY KEY (IdCostCenter)
+);
+
+/
+
+CREATE SEQUENCE Costcenters_Seq
+ START WITH     100
+ INCREMENT BY   5
+ NOCACHE
+ NOCYCLE;
+
+/
+
+CREATE TABLE Item (
+  IdItem number NOT NULL,
+  description varchar(500) NOT NULL,
+  PriceCharged varchar(100) NOT NULL,
+  IdCostCenter number NOT NULL,
+	CONSTRAINT item_Pk PRIMARY KEY (IdItem),
+	CONSTRAINT IdCostCenter_Fk FOREIGN KEY (IdCostCenter) REFERENCES CostCenter (IdCostCenter)
+);
+
+/
+
+CREATE SEQUENCE Item_Seq
+ START WITH     5
+ INCREMENT BY   5
+ NOCACHE
+ NOCYCLE;
+
+/
+
+
+CREATE TABLE City (
+  CityId number NOT NULL,
+  description varchar(500) NOT NULL,
+	CONSTRAINT CityIdPk PRIMARY KEY (CityId)
+
+);
+
+CREATE SEQUENCE City_Seq
+ START WITH     5
+ INCREMENT BY   5
+ NOCACHE
+ NOCYCLE;
+
+/
+INSERT INTO City (CityId,description) VALUES (1,'Serskamp');
+INSERT INTO City (CityId,description) VALUES (2,'Lo Espejo');
+INSERT INTO City (CityId,description) VALUES (3,'Canela');
+INSERT INTO City (CityId,description) VALUES (4,'Penco');
+INSERT INTO City (CityId,description) VALUES (5,'São José');
+
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (1,'Bernard Valdez','Ap #455-2110 Libero. Rd.',3,'PO','7327');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (2,'Len Christensen','586-8667 Dolor St.',1,'ON','3339');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (3,'Palmer Mclaughlin','658-2032 Fringilla Street',1,'Noord Brabant','05383');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (4,'Keane Mcgowan','2965 Nec Avenue',5,'IL','39-134');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (5,'Micah Tyler','Ap #785-4802 Eu, Avenue',1,'Wie','D0S 8HJ');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (6,'Griffin Butler','Ap #184-6610 Eros Rd.',4,'Sussex','1141');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (7,'Sylvester Kline','447-2563 Vestibulum. St.',3,'Ulster','099135');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (8,'Aristotle Macdonald','829-3833 Lorem. Ave',3,'Slaskie','41800');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (9,'Ferdinand Gallagher','Ap #970-7168 Consequat Avenue',1,'Guanacaste','B6L 0G3');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (10,'Keaton Erickson','421-1942 Nascetur Ave',3,'Hamburg','13981');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (11,'Upton French','3751 Nec Road',1,'O','926960');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (12,'Tanek David','P.O. Box 814, 6747 At Rd.',4,'GO','86566');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (13,'Benjamin Ramirez','796-4496 Ornare Ave',5,'CE','692886');
+INSERT INTO Patients (IdPatients,name,Address,CityId,State,Zip) VALUES (14,'Jonas Lowe','1823 Phasellus Avenue',1,'Berlin','3556 XX');
+
+
+INSERT INTO CostCenter (IdCostCenter,description) VALUES (1,'Laboratory');
+INSERT INTO CostCenter (IdCostCenter,description) VALUES (2,'Room&Board');
+INSERT INTO CostCenter (IdCostCenter,description) VALUES (3,'Radiology');
+INSERT INTO CostCenter (IdCostCenter,description) VALUES (4,'Surgery');
+INSERT INTO CostCenter (IdCostCenter,description) VALUES (5,'Anesthesia');
+
+
+INSERT INTO Item (IdItem,description,PriceCharged,IdCostCenter) VALUES (1,'Semi-prv room','$89.16',4);
+INSERT INTO Item (IdItem,description,PriceCharged,IdCostCenter) VALUES (2,'Television','$96.80',5);
+INSERT INTO Item (IdItem,description,PriceCharged,IdCostCenter) VALUES (3,'Semi-prv room','$11.91',4);
+INSERT INTO Item (IdItem,description,PriceCharged,IdCostCenter) VALUES (4,'Glucose','$47.61',2);
+INSERT INTO Item (IdItem,description,PriceCharged,IdCostCenter) VALUES (5,'Culture','$36.27',5);
+INSERT INTO Item (IdItem,description,PriceCharged,IdCostCenter) VALUES (6,'X-Ray Chest','$91.24',1);
+INSERT INTO Item (IdItem,description,PriceCharged,IdCostCenter) VALUES (7,'X-Ray Hans','$0.86',5);
+INSERT INTO Item (IdItem,description,PriceCharged,IdCostCenter) VALUES (8,'X-Ray Brain','$91.73',4);
+INSERT INTO Item (IdItem,description,PriceCharged,IdCostCenter) VALUES (9,'Culture','$43.15',4);
+INSERT INTO Item (IdItem,description,PriceCharged,IdCostCenter) VALUES (10,'massage','$36.95',1);
+INSERT INTO Item (IdItem,description,PriceCharged,IdCostCenter) VALUES (11,'Laboratory','$47.36',5);
+INSERT INTO Item (IdItem,description,PriceCharged,IdCostCenter) VALUES (12,'X-Ray legs','$72.10',3);
+
